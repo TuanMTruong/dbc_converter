@@ -31,10 +31,10 @@ writeLine(fd)
 # print messsages[0].signals[0]
 
 
-writeLine(fd, 'enum CAN_IDS {')
+writeLine(fd, 'typedef enum CAN_IDS {')
 
 for m in messsages:
-	writeLine(fd, '\t'+ m.name + ' = ' + str(m.frame_id))
+	writeLine(fd, '\t'+ m.name + '_id = ' + str(m.frame_id))
 
 writeLine(fd, '} Message_IDs;')
 
@@ -70,10 +70,9 @@ for m in messsages:
 			if not s.is_signed:
 				typeName = typeName + 'u'
 			typeName = typeName +'int' + str(s.length) + '_t'
-		writeLine(fd, '\t// min = ' + str(s.minimum) + ' max = ' + str(s.maximum))
-		writeLine(fd, '\t// units: ' + str(s.unit))
+		writeLine(fd, '\t// min = ' + str(s.minimum) + ' max = ' + str(s.maximum) + ' units: ' + str(s.unit))
 		writeLine(fd, '\t' + typeName + ' ' + s.name + ';')
-	writeLine(fd, '}')
+	writeLine(fd, '};')
 	writeLine(fd)
 
 
