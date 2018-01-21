@@ -1,0 +1,4 @@
+bitstruct==3.7.0
+cantools==16.1.0
+pyparsing==2.2.0
+python-apt==1.1.0b1
