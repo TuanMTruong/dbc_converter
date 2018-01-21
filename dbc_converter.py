@@ -71,6 +71,7 @@ for m in messsages:
 				typeName = typeName + 'u'
 			typeName = typeName +'int' + str(s.length) + '_t'
 		writeLine(fd, '\t// min = ' + str(s.minimum) + ' max = ' + str(s.maximum) + ' units: ' + str(s.unit))
+		writeLine(fd, '\t// ' + s.byte_order)
 		writeLine(fd, '\t' + typeName + ' ' + s.name + ';')
 	writeLine(fd, '};')
 	writeLine(fd)
