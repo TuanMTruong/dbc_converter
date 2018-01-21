@@ -92,7 +92,7 @@ for m in messages:
 	writeLine(fd)
 
 	if m.comment:
-		writeLine(fd, '\tComment Field: ' + m.comment)
+		writeLine(fd, '\t//Comment Field: ' + m.comment)
 		writeLine(fd)
 
 	# set constructors
@@ -124,6 +124,7 @@ for m in messages:
 	for s in signals:
 		writeLine(fd, '\t// ' + s.name)
 		writeLine(fd, '\t// min = ' + str(s.minimum) + ' max = ' + str(s.maximum) + ' units: ' + str(s.unit) + ' scale: ' + str(s.scale))
+		writeLine(fd, '\t// Signal comment: ' + s.comment)
 		typeName = ''
 		# check if it has a choice so set the type of it
 		if s.choices:
