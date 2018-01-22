@@ -27,8 +27,6 @@ int main(){
 	cout << endl;
 
 	// -------- Transmitting a message --------
-	//data to send:
-	// uint8_t newData[8] = {0xB8, 0x0B, 2, 0xA0, 0x41, 2, 0xC4, 0x09};
 	Vehicle_Status_Message newMsg;
 	newMsg.setVoltage(10000);
 	newMsg.setRPM(2000);
