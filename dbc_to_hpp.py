@@ -89,6 +89,7 @@ for m in messages:
 	writeLine(fd, '\tstatic constexpr bool remote = ' + 'false;')
 	writeLine(fd, '\tstatic constexpr bool extended = ' + str(m.is_extended_frame).lower() + ';')
 	writeLine(fd, '\tstatic constexpr uint8_t dlc = ' + str(m.length) + ';')
+	# writeLine(fd, '\tstatic constexpr float scale = ' + str(m))
 	writeLine(fd)
 
 	if m.comment:
@@ -103,6 +104,16 @@ for m in messages:
 	writeLine(fd, '\t// Copies message pass in')
 	writeLine(fd, '\t' + m.name + '_Message' + '(const CANMessage &m): _msg(m) {}')
 	writeLine(fd)
+
+	writeLine(fd, '\t// Data storage')
+	writeLine(fd, '\tCANMessage _msg;')
+	writeLine(fd)
+
+	writeLine(fd, '\tuint8_t* getMsgData(){')
+	writeLine(fd, '\t\treturn _msg.data;')
+	writeLine(fd, '\t}')
+	writeLine(fd)
+
 
 	# enum class types
 	for s in signals:
@@ -176,8 +187,8 @@ for m in messages:
 		writeLine(fd, '\tvoid set' + s.name + '(' + typeName + ' value){')
 		startIdx = int(s.start/8)
 		sigLen = int(s.length/8)
-		if s.byte_order == 'little_endian':
-			writeLine(fd, '\t\t//Little Endian')
+		if s.byte_order == 'big_endian':
+			writeLine(fd, '\t\t//Big Endian')
 			num = sigLen -1
 			for i in range(startIdx, startIdx + sigLen, 1 ):
 				if num == 0:
@@ -185,22 +196,20 @@ for m in messages:
 				else:
 					writeLine(fd, '\t\t_msg.data[' + str(i) + '] = (uint8_t)(value >> ' + str(num*8) + ');')
 				num = num - 1
-		if s.byte_order == 'big_endian':
-			writeLine(fd, '\t\t//Big Endian')
-			shiftIdx = sigLen -1
-			for i in range(startIdx, startIdx + igLen, 1 ):
-				if num == 0:
+		if s.byte_order == 'little_endian':
+			writeLine(fd, '\t\t//Little Endian')
+			shiftIdx = 0
+			for i in range(startIdx, startIdx + sigLen, 1 ):
+				if shiftIdx == 0:
 					writeLine(fd, '\t\t_msg.data[' + str(i) + '] = (uint8_t)(value);')
 				else:
-					writeLine(fd, '\t\t_msg.data[' + str(i) + '] = (uint8_t)(value >> ' + str(i*8) + ');')
+					writeLine(fd, '\t\t_msg.data[' + str(i) + '] = (uint8_t)(value >> ' + str(shiftIdx*8) + ');')
+				shiftIdx = shiftIdx +1;
 		writeLine(fd, '\t}')
 		writeLine(fd)
 
 
 
-	# portected can message object
-	writeLine(fd, 'protected:')
-	writeLine(fd, '\tCANMessage _msg;')
 	writeLine(fd, '};')
 	writeLine(fd)
 
