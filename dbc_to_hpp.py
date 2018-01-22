@@ -115,6 +115,7 @@ for m in messages:
 	writeLine(fd)
 
 
+
 	# enum class types
 	for s in signals:
 		if s.choices:

@@ -24,11 +24,23 @@ int main(){
 	}
 
 
+	cout << endl;
+
 	// -------- Transmitting a message --------
 	//data to send:
-	uint8_t newData[8] = {0xB8, 0x0B, 2, 0xA0, 0x41, 2, 0xC4, 0x09};
-	Vehicle_Status_Message newMsg(newData);
-	// TODO: add away to get access to data buffer in newMsg
+	// uint8_t newData[8] = {0xB8, 0x0B, 2, 0xA0, 0x41, 2, 0xC4, 0x09};
+	Vehicle_Status_Message newMsg;
+	newMsg.setVoltage(10000);
+	newMsg.setRPM(2000);
+	newMsg.setCurrent(1000);
+	cout << (int)newMsg.getRPM() << " rpm" << endl;
+	cout << (int)newMsg.getVoltage() << " mV" << endl;
+	cout << (int)newMsg.getCurrent() << " mA" << endl;
+	cout << (int)newMsg.messageID << " ID" << endl;
+	cout << (int)newMsg.dlc << " bytes in the message." << endl;
+
+	// to send a message, use the getMsgData() member to get a pointer to the data array
+	// transmit(newMsg.id, newMsg.getMsgData(), newMsg.dlc);
 
 
 
